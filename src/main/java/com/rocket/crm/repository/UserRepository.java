@@ -1,7 +1,6 @@
 package com.rocket.crm.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,8 +14,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
 	List<User> findByEmail(String email);
 
-	List<User> findByPhone(String email);
-
-	Optional<User> findById(String id);
+	List<User> findByPhone(String phone);
 
 }

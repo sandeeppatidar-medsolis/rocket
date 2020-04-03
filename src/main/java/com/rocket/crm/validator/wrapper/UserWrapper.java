@@ -8,8 +8,8 @@ import com.rocket.crm.validator.NotEmptyValue;
 
 public class UserWrapper extends GenricWrapper {
 
-	@ContainsKeys({ AppConstants.NAME, AppConstants.PHONE })
-	@NotEmptyValue({ AppConstants.NAME, AppConstants.PHONE })
+	@ContainsKeys({ AppConstants.NAME, AppConstants.PHONE, AppConstants.USERNAME })
+	@NotEmptyValue({ AppConstants.NAME, AppConstants.PHONE, AppConstants.USERNAME })
 	@Override
 	public Map<String, Object> getMap() {
 		return super.getMap();

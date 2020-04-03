@@ -39,14 +39,14 @@ public class GlobalExceptionHandler {
 		return new ResponseMessage<>(HttpStatus.FORBIDDEN.value(), ex.getMessage());
 	}
 
-	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
 	@ExceptionHandler(GenricException.class)
 	public ResponseMessage<String> handleGenricException(HttpServletRequest request, GenricException ex) {
 		LOGGER.info(EXCEPTION_OCCURED, ex.getMessage());
 		return new ResponseMessage<>(HttpStatus.EXPECTATION_FAILED.value(), ex.getMessage());
 	}
 
-	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	public ResponseMessage<String> handleMissingServletRequestParameterException(HttpServletRequest request,
 			MissingServletRequestParameterException ex) {
@@ -80,8 +80,7 @@ public class GlobalExceptionHandler {
 
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(UserRequestException.class)
-	public ResponseMessage<String> handleUserRequestException(HttpServletRequest request,
-			HttpRequestMethodNotSupportedException ex) {
+	public ResponseMessage<String> handleUserRequestException(HttpServletRequest request, UserRequestException ex) {
 		LOGGER.info(EXCEPTION_OCCURED, ex.getMessage());
 		return new ResponseMessage<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
 	}

@@ -18,9 +18,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-//	@Autowired
-//	CustomAuthenticationProvider authenticationProvider;
-
 	@Override
 	@Bean
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -35,8 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().anonymous().disable().sessionManagement().and().authorizeRequests()
-				.antMatchers("/oauth/token", "/api/v1/user/create", "/api/v1/user/forgot", "/api/v1/user/otp_send")
-				.permitAll();
+				.antMatchers("/oauth/token", "/api/v1/user/create", "/api/v1/user/forgot").permitAll();
 	}
 
 	@Bean
