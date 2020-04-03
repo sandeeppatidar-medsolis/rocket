@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+
+	<property name="LOGSPATH" value="./logs" />
+	<property name="FILENAME" value="rocket" />
+
+	<appender name="Console"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)]
+				%yellow(%C{1.}): %msg%n%throwable
+			</Pattern>
+		</layout>
+	</appender>
+
+	<appender name="RollingFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGSPATH}/${FILENAME}.log</file>
+		<encoder
+			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+		</encoder>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily and when the file reaches 1 MegaBytes -->
+			<fileNamePattern>${LOGSPATH}/${FILENAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>1MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<!-- LOG everything at INFO level -->
+	<root level="info">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</root>
+
+	<!-- LOG "com.divergentsl.erp.sales*" at error level -->
+	<logger name="com.divergentsl.erp.sales" level="error"
+		additivity="false">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</logger>
+
+	<!-- LOG "com.divergentsl.erp.common*" at error level -->
+	<logger name="com.divergentsl.erp.common" level="error"
+		additivity="false">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</logger>
+
+	<!-- LOG "com.divergentsl.erp.framework*" at error level -->
+	<logger name="com.divergentsl.erp.framework" level="error"
+		additivity="false">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</logger>
+
+	<!-- LOG "org.springframework.web*" at error level -->
+	<logger name="org.springframework.web" level="error"
+		additivity="false">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</logger>
+
+	<!-- LOG "org.hibernate*" at error level -->
+	<logger name="org.hibernate" level="error" additivity="false">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</logger>
+
+	<!-- LOG "org.springframework.cloud.netflix.eureka*" at error level -->
+	<logger name="org.springframework.cloud.netflix.eureka"
+		level="error" additivity="false">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</logger>
+
+</configuration>
