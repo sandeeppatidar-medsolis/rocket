@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,8 @@ import com.rocket.crm.audit.DateAudit;
 import lombok.Data;
 
 @Data
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 public class User extends DateAudit implements UserDetails {
 
 	/**
@@ -79,20 +81,6 @@ public class User extends DateAudit implements UserDetails {
 			@JoinColumn(name = "user_id", nullable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "role_id", nullable = false) })
 	private Set<Role> roles;
-
-//	@JsonDeserialize(using = CustomAuthorityDeserializer.class)
-//	@Override
-//	public Collection<? extends GrantedAuthority> getAuthorities() {
-//		Set<Role> rolesList = new HashSet<>();
-//		if (roles != null) {
-//			for (String role : roles) {
-//				Role r = new Role();
-//				r.setName(role);
-//				rolesList.add(r);
-//			}
-//		}
-//		return rolesList;
-//	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -8,24 +8,25 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 
 import com.rocket.crm.audit.DateAudit;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity(name = "roles")
-@AllArgsConstructor
+@Entity
+@Table(name = "roles")
 @NoArgsConstructor
 public class Role extends DateAudit implements Serializable, GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;
 
 	private static final String NAME_FIELD = "name";
+	private static final String DISPLAY_NAME_FIELD = "display_name";
 
 	public Role(String name) {
 		super();
@@ -35,6 +36,9 @@ public class Role extends DateAudit implements Serializable, GrantedAuthority {
 	@Id
 	@Column(name = NAME_FIELD)
 	private String name;
+
+	@Column(name = DISPLAY_NAME_FIELD)
+	private String displayName;
 
 	@Override
 	public String getAuthority() {

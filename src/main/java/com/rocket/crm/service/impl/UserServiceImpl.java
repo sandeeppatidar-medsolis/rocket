@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -46,19 +47,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public Map<String, Object> create(Map<String, Object> map) {
 
 		@SuppressWarnings("unchecked")
-		List<Map<String, Object>> rolesMap = (List<Map<String, Object>>) map.get(AppConstants.ROLES_KEY);
+		List<Map<String, Object>> rolesMap = (List<Map<String, Object>>) map.get(AppConstants.ROLES);
 
 		if (AppUtility.isEmpty(rolesMap)) {
-			throw new ValidationException(MsgConstants.ERROR_ROLE_NOT_FOUND);
+			throw new ValidationException(MsgConstants.ERROR_ROLE_NOT_NULL);
 		}
 
 		Set<Role> roles = new HashSet<>();
 		for (Map<String, Object> roleMap : rolesMap) {
 			String name = (String) roleMap.get(AppConstants.NAME);
 			if (AppUtility.isEmpty(name)) {
-				throw new ValidationException(MsgConstants.ERROR_ROLE_NAME_NOT_FOUND);
+				throw new ValidationException(MsgConstants.ERROR_ROLE_NAME_NOT_NULL);
 			}
-			roles.add(new Role(name));
+			Role role = roleRepository.findByName(name);
+			if (AppUtility.isEmpty(role)) {
+				throw new GenricException(MsgConstants.ERROR_ROLE_NOT_EXIST);
+			}
+			roles.add(role);
 		}
 
 		User user = (User) ConversionUtils.convertMapToEntity(map, User.class);
@@ -89,38 +94,50 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public Map<String, Object> update(Map<String, Object> map) {
-		String phone = ((String) map.get(AppConstants.PHONE));
 
 		@SuppressWarnings("unchecked")
-		List<Map<String, Object>> rolesMap = (List<Map<String, Object>>) map.get(AppConstants.ROLES_KEY);
+		List<Map<String, Object>> rolesMap = (List<Map<String, Object>>) map.get(AppConstants.ROLES);
 
 		if (AppUtility.isEmpty(rolesMap)) {
-			throw new ValidationException(MsgConstants.ERROR_ROLE_NOT_FOUND);
+			throw new ValidationException(MsgConstants.ERROR_ROLE_NOT_NULL);
 		}
+
+		User existUser = userRepository.findById((String) map.get(AppConstants.USERNAME))
+				.orElseThrow(() -> new UsernameNotFoundException(MsgConstants.USER_NOT_REGISTERED));
 
 		Set<Role> roles = new HashSet<>();
 		for (Map<String, Object> roleMap : rolesMap) {
 			String name = (String) roleMap.get(AppConstants.NAME);
 			if (AppUtility.isEmpty(name)) {
-				throw new ValidationException(MsgConstants.ERROR_ROLE_NAME_NOT_FOUND);
+				throw new ValidationException(MsgConstants.ERROR_ROLE_NAME_NOT_NULL);
 			}
-			roles.add(new Role(name));
+			Role role = roleRepository.findByName(name);
+			if (AppUtility.isEmpty(role)) {
+				throw new GenricException(MsgConstants.ERROR_ROLE_NOT_EXIST);
+			}
+			roles.add(role);
 		}
-		User user = (User) ConversionUtils.convertMapToEntity(map, User.class);
-		User existUser = userRepository.findById((String) map.get(AppConstants.USERNAME))
-				.orElseThrow(() -> new UsernameNotFoundException(MsgConstants.USER_NOT_REGISTERED));
 
+		User user = (User) ConversionUtils.convertMapToEntity(map, User.class);
 		if (!AppUtility.isEmpty(map.get(AppConstants.EMAIL))
 				&& !(existUser.getEmail().equals((String) map.get(AppConstants.EMAIL)))
 				&& !(userRepository.findByEmail((String) map.get(AppConstants.EMAIL)).isEmpty())) {
 			throw new GenricException(MsgConstants.ERROR_EMAIL_ALREADY_EXIST);
 		}
+
+		String phone = ((String) map.get(AppConstants.PHONE));
 		if (!(existUser.getPhone().equals((String) map.get(AppConstants.PHONE)))
 				&& (userRepository.findByPhone(phone) != null)) {
 			throw new GenricException(MsgConstants.ERROR_PHONE_ALREADY_EXIST);
 		}
-		user.setRoles(new HashSet<>(roles));
-		user = userRepository.save(user);
+
+		existUser.setRoles(new HashSet<>(roles));
+		existUser.setName(user.getName());
+		existUser.setLocation(user.getLocation());
+		existUser.setCity(user.getCity());
+		existUser.setEmail(user.getEmail());
+		existUser.setPhone(user.getPhone());
+		user = userRepository.save(existUser);
 		return ConversionUtils.convertEntityToMap(user, 1);
 	}
 
@@ -137,16 +154,41 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public Map<String, Object> getAdditionalInformation(OAuth2Authentication authentication) {
 		Map<String, Object> additionalInfo = new HashMap<>();
-//		additionalInfo.put(AppConstants.PHONE, authentication.getName());
-//		List<User> users = userRepository.findByPhone(authentication.getName());
-//		if (users.isEmpty()) {
-//			throw new UsernameNotFoundException(Translator.toLocale("ERROR_PHONE_NOT_REGISTERED"));
-//		}
-//		User user = users.get(0);
-		// additionalInfo.put("name", user.getName());
-		// List<String> roles = new ArrayList<>();
-		// additionalInfo.put("role", roles);
+		Set<String> roles = new HashSet<>();
+		for (GrantedAuthority autority : authentication.getAuthorities()) {
+			Role role = (Role) autority;
+			roles.add(role.getName());
+		}
+		additionalInfo.put(AppConstants.ROLES, roles);
 		return additionalInfo;
+	}
+
+	@Override
+	public Map<String, Object> getByUserId(String username) {
+		Map<String, Object> user = userRepository.findUserByUsername(username);
+		if (AppUtility.isEmpty(user)) {
+			throw new GenricException(MsgConstants.ERROR_INVALID_USER);
+		}
+		return user;
+	}
+
+	@Override
+	public Map<String, Object> roleCreate(Map<String, Object> map) {
+		Role role = (Role) ConversionUtils.convertMapToEntity(map, Role.class);
+		if (AppUtility.isEmpty(role.getName())) {
+			throw new GenricException(MsgConstants.ERROR_ROLE_NAME_NOT_NULL);
+		}
+		role = roleRepository.save(role);
+		return ConversionUtils.convertEntityToMap(role, 1);
+	}
+
+	@Override
+	public Map<String, Object> getRoleByRoleName(String name) {
+		Map<String, Object> role = roleRepository.findRoleByName(name);
+		if (AppUtility.isEmpty(role)) {
+			throw new GenricException(MsgConstants.ERROR_INVALID_ROLE);
+		}
+		return role;
 	}
 
 }

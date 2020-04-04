@@ -19,9 +19,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests()
-				.antMatchers("/oauth/token", "/api/v1/user/create", "/api/v1/user/forgot", "/api/v1/user/otp_send")
-				.permitAll().anyRequest().authenticated();
+		http.csrf().disable().authorizeRequests().antMatchers("/oauth/token", "/api/v1/user/forgot").permitAll()
+				.anyRequest().authenticated();
 	}
 
 }
