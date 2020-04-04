@@ -159,6 +159,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			Role role = (Role) autority;
 			roles.add(role.getName());
 		}
+		User user = userRepository.findByUsername(authentication.getName());
+		if (AppUtility.isEmpty(user)) {
+			throw new UsernameNotFoundException(MsgConstants.ERROR_INVALID_USER);
+		}
+		additionalInfo.put(AppConstants.USERNAME, authentication.getName());
+		additionalInfo.put(AppConstants.NAME, user.getName());
 		additionalInfo.put(AppConstants.ROLES, roles);
 		return additionalInfo;
 	}
