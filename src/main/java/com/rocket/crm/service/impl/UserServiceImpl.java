@@ -170,31 +170,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public Map<String, Object> getByUserId(String username) {
+	public Map<String, Object> getByUsername(String username) {
 		Map<String, Object> user = userRepository.findUserByUsername(username);
 		if (AppUtility.isEmpty(user)) {
 			throw new GenricException(MsgConstants.ERROR_INVALID_USER);
 		}
 		return user;
-	}
-
-	@Override
-	public Map<String, Object> roleCreate(Map<String, Object> map) {
-		Role role = (Role) ConversionUtils.convertMapToEntity(map, Role.class);
-		if (AppUtility.isEmpty(role.getName())) {
-			throw new GenricException(MsgConstants.ERROR_ROLE_NAME_NOT_NULL);
-		}
-		role = roleRepository.save(role);
-		return ConversionUtils.convertEntityToMap(role, 1);
-	}
-
-	@Override
-	public Map<String, Object> getRoleByRoleName(String name) {
-		Map<String, Object> role = roleRepository.findRoleByName(name);
-		if (AppUtility.isEmpty(role)) {
-			throw new GenricException(MsgConstants.ERROR_INVALID_ROLE);
-		}
-		return role;
 	}
 
 }

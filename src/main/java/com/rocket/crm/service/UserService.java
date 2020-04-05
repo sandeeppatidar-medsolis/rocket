@@ -12,10 +12,6 @@ public interface UserService {
 
 	Map<String, Object> update(Map<String, Object> map);
 
-	Map<String, Object> getByUserId(String username);
-
-	Map<String, Object> roleCreate(Map<String, Object> map);
-
-	Map<String, Object> getRoleByRoleName(String name);
+	Map<String, Object> getByUsername(String username);
 
 }

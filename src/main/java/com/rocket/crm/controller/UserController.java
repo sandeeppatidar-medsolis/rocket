@@ -18,7 +18,6 @@ import com.rocket.crm.constants.MsgConstants;
 import com.rocket.crm.constants.UriConstants;
 import com.rocket.crm.service.UserService;
 import com.rocket.crm.utility.ResponseMessage;
-import com.rocket.crm.validator.wrapper.RoleWrapper;
 import com.rocket.crm.validator.wrapper.UserWrapper;
 
 @RestController
@@ -43,19 +42,7 @@ public class UserController {
 	@GetMapping(value = UriConstants.GET_BY_USERNAME)
 	public ResponseMessage<Map<String, Object>> getByUserId(@PathVariable(value = "username") String username) {
 		return new ResponseMessage<>(HttpStatus.OK.value(), MsgConstants.USER_GET_SUCCESSFULLY,
-				userService.getByUserId(username));
-	}
-
-	@PostMapping(value = UriConstants.ROLE_CREATE)
-	public ResponseMessage<Map<String, Object>> roleSave(@RequestBody @Valid RoleWrapper map) {
-		return new ResponseMessage<>(HttpStatus.OK.value(), MsgConstants.ROLE_CREATE_SUCCESSFULLY,
-				userService.roleCreate(map.getMap()));
-	}
-
-	@GetMapping(value = UriConstants.GET_ROLE_BY_NAME)
-	public ResponseMessage<Map<String, Object>> getRoleByRoleName(@PathVariable(value = "name") String name) {
-		return new ResponseMessage<>(HttpStatus.OK.value(), MsgConstants.ROLE_GET_SUCCESSFULLY,
-				userService.getRoleByRoleName(name));
+				userService.getByUsername(username));
 	}
 
 }
