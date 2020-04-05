@@ -6,7 +6,7 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 	<!-- TODO add new branch specific files -->
 
-	<include file="initial/initial-db.xml"
+	<include file="changelog/initial/initial-db.xml"
 		relativeToChangelogFile="true" />
 
 </databaseChangeLog>
