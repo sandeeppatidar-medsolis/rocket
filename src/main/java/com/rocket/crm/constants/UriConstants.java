@@ -18,6 +18,7 @@ public class UriConstants {
 	 */
 	public static final String CREATE = "/create";
 	public static final String UPDATE = "/update";
+	public static final String GET_ALL = "/get_all";
 
 	/*
 	 * USER END POINT

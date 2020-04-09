@@ -3,9 +3,12 @@ package com.rocket.crm.service.impl;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.rocket.crm.constants.MsgConstants;
+import com.rocket.crm.dao.RoleDao;
 import com.rocket.crm.entity.Role;
 import com.rocket.crm.exception.GenricException;
 import com.rocket.crm.repository.RoleRepository;
@@ -18,6 +21,9 @@ public class RoleServiceImpl implements RoleService {
 
 	@Autowired
 	RoleRepository roleRepository;
+
+	@Autowired
+	RoleDao roleDao;
 
 	@Override
 	public Map<String, Object> create(Map<String, Object> map) {
@@ -36,5 +42,11 @@ public class RoleServiceImpl implements RoleService {
 			throw new GenricException(MsgConstants.ERROR_INVALID_ROLE);
 		}
 		return role;
+	}
+
+	@Override
+	public Page<Map<String, Object>> getAll(String search, boolean advanceSearch, Map<String, Object> context,
+			Pageable pageable) {
+		return roleDao.getAll(search, advanceSearch, context, pageable);
 	}
 }
