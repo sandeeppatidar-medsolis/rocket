@@ -19,10 +19,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.rocket.crm.audit.DateAudit;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
 public class User extends DateAudit implements UserDetails {
 
 	/**
@@ -41,6 +43,11 @@ public class User extends DateAudit implements UserDetails {
 	private static final String ACCOUNT_NON_LOCKED = "account_non_locked";
 	private static final String CREDENTIALS_NON_EXPIRED = "credentials_non_expired";
 	private static final String ENABLED_FIELD = "enabled";
+
+	public User(String username) {
+		super();
+		this.username = username;
+	}
 
 	@Id
 	@Column(name = USERNAME_FIELD, unique = true, nullable = false)

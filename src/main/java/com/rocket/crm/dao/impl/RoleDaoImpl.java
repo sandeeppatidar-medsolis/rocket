@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import com.rocket.crm.constants.AppConstants;
 import com.rocket.crm.dao.RoleDao;
 import com.rocket.crm.entity.Role;
+import com.rocket.crm.entity.User;
 import com.rocket.crm.utility.CriteriaOrderBuilderUtility;
 import com.rocket.crm.utility.ValidationUtility;
 
@@ -37,7 +38,8 @@ public class RoleDaoImpl implements RoleDao {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Tuple> criteria = builder.createTupleQuery();
 		Root<Role> root = criteria.from(Role.class);
-		criteria.multiselect(root.get(AppConstants.NAME), root.get(AppConstants.DISPLAY_NAME));
+		criteria.multiselect(root.get(AppConstants.NAME), root.get(AppConstants.DISPLAY_NAME),
+				root.get(AppConstants.CREATED_BY), root.get(AppConstants.CREATED_DATE));
 
 		List<Predicate> predicates = getPredicateRole(builder, root, search, advanceSearch, context);
 
@@ -51,6 +53,9 @@ public class RoleDaoImpl implements RoleDao {
 			Map<String, Object> map = new HashMap<>();
 			map.put(AppConstants.NAME, tuple.get(0));
 			map.put(AppConstants.DISPLAY_NAME, tuple.get(1));
+			map.put(AppConstants.CREATED_BY, ((User) tuple.get(2)).getName());
+			map.put(AppConstants.CREATED_DATE, tuple.get(3));
+
 			workEffortMaps.add(map);
 		}
 		long count = entityManager.createQuery(criteria).getResultList().size();
@@ -64,6 +69,7 @@ public class RoleDaoImpl implements RoleDao {
 		if (advanceSearch) {
 			String name = (String) context.get(AppConstants.NAME);
 			String displayName = (String) context.get(AppConstants.DISPLAY_NAME);
+			String createdBy = (String) context.get(AppConstants.CREATED_BY);
 
 			if (!ValidationUtility.isEmpty(name))
 				predicates
@@ -73,10 +79,16 @@ public class RoleDaoImpl implements RoleDao {
 				predicates.add(builder.like(builder.lower(root.get(AppConstants.DISPLAY_NAME)),
 						"%" + displayName.toLowerCase() + "%"));
 
+			if (!ValidationUtility.isEmpty(createdBy))
+				predicates.add(builder.like(builder.lower(root.get(AppConstants.CREATED_BY).get(AppConstants.NAME)),
+						"%" + createdBy.toLowerCase() + "%"));
+
 		} else if (!ValidationUtility.isEmpty(search)) {
 			predicates.add(builder.or(
 					builder.like(builder.lower(root.<String>get(AppConstants.NAME)), "%" + search.toLowerCase() + "%"),
 					builder.like(builder.lower(root.<String>get(AppConstants.DISPLAY_NAME)),
+							"%" + search.toLowerCase() + "%"),
+					builder.like(builder.lower(root.<String>get(AppConstants.CREATED_BY).get(AppConstants.NAME)),
 							"%" + search.toLowerCase() + "%")));
 		}
 		return predicates;

@@ -1,7 +1,7 @@
 CREATE TABLE public.users (
     username character varying(255) NOT NULL,
-    created_by character varying(255),
-    created_date timestamp without time zone,
+    created_by character varying(255) NOT NULL,
+    created_date timestamp without time zone NOT NULL,
     last_modified_date timestamp without time zone,
     last_modified_by character varying(255),
     account_non_expired boolean NOT NULL,
@@ -14,7 +14,9 @@ CREATE TABLE public.users (
     name character varying(255) NOT NULL,
     password character varying(255),
     phone character varying(255) NOT NULL,
-    CONSTRAINT users_pkey PRIMARY KEY (username)
+    CONSTRAINT users_pkey PRIMARY KEY (username),
+    FOREIGN KEY(created_by) REFERENCES public.users (username),
+    FOREIGN KEY(last_modified_by) REFERENCES public.users (username)
 )
 WITH (
   OIDS=FALSE
@@ -25,12 +27,14 @@ ALTER TABLE public.users
 
 CREATE TABLE public.roles (
     name character varying(255) NOT NULL,
-    created_by character varying(255),
-    created_date timestamp without time zone,
+    created_by character varying(255) NOT NULL,
+    created_date timestamp without time zone NOT NULL,
     last_modified_date timestamp without time zone,
     last_modified_by character varying(255),
     display_name character varying(255),
-    CONSTRAINT roles_pkey PRIMARY KEY (name)
+    CONSTRAINT roles_pkey PRIMARY KEY (name),
+    FOREIGN KEY(created_by) REFERENCES public.users (username),
+    FOREIGN KEY(last_modified_by) REFERENCES public.users (username)
 )
 WITH (
   OIDS=FALSE
@@ -57,10 +61,10 @@ WITH (
 ALTER TABLE public.users_roles
   OWNER TO postgres;
 
+INSERT INTO public.users(username, account_non_expired, account_non_locked, created_by, credentials_non_expired, email, enabled, name, password, phone, created_date) VALUES ('superadmin', true, true,'superadmin', true, 'superadmin@rocket.com', true, 'Super Admin', '$2a$10$77DlCs2VLXhV1JJ/cZqpOe4EzghKEoAcW0h8SANEHRB7Qzx7HOCnW','1010101010',now());
 
-INSERT INTO public.roles(name, created_by, display_name,created_date) VALUES ('ROLE_SUPER_ADMIN', 'SYSYEM', 'Super Administrator',now());
+INSERT INTO public.roles(name, created_by, display_name,created_date) VALUES ('ROLE_SUPER_ADMIN', 'superadmin', 'Super Administrator',now());
 
-INSERT INTO public.users(username, account_non_expired, account_non_locked, created_by, credentials_non_expired, email, enabled, name, password, phone, created_date) VALUES ('superadmin', true, true,'SYSTEM', true, 'superadmin@rocket.com', true, 'Super Admin', '$2a$10$77DlCs2VLXhV1JJ/cZqpOe4EzghKEoAcW0h8SANEHRB7Qzx7HOCnW','1010101010',now());
 
 
 INSERT INTO public.users_roles(user_id, role_id) VALUES ('superadmin', 'ROLE_SUPER_ADMIN');

@@ -17,5 +17,7 @@ public class AppConstants {
 	public static final String ID = "id";
 	public static final String DISPLAY_NAME = "displayName";
 	public static final String ROLES = "roles";
+	public static final String CREATED_BY = "createdBy";
+	public static final String CREATED_DATE = "createdDate";
 
 }

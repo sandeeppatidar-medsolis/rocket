@@ -8,18 +8,20 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.rocket.crm.entity.User;
+
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
-public class AuditingConfiguration implements AuditorAware<String> {
+public class AuditingConfiguration implements AuditorAware<User> {
 
 	@Override
-	public Optional<String> getCurrentAuditor() {
+	public Optional<User> getCurrentAuditor() {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		return Optional.of(username);
+		return Optional.of(new User(username));
 	}
 
 	@Bean
-	public AuditorAware<String> auditorAware() {
+	public AuditorAware<User> auditorAware() {
 		return new AuditingConfiguration();
 	}
 }
