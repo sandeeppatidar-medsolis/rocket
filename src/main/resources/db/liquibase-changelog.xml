@@ -9,4 +9,10 @@
 	<include file="changelog/initial/initial-db.xml"
 		relativeToChangelogFile="true" />
 
+	<include file="changelog/changes/change-db-18-04-2020.xml"
+		relativeToChangelogFile="true" />
+
+	<include file="changelog/changes/change-db-18-04-2020_1.xml"
+		relativeToChangelogFile="true" />
+
 </databaseChangeLog>

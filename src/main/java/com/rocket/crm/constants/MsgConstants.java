@@ -14,6 +14,14 @@ public class MsgConstants {
 	public static final String USER_GET_SUCCESSFULLY = "User get successfully.";
 	public static final String ROLE_CREATE_SUCCESSFULLY = "User created successfully.";
 	public static final String ROLE_GET_SUCCESSFULLY = "Role get successfully.";
+	public static final String COUNTRY_CREATE_SUCCESSFULLY = "Country created successfully";
+	public static final String STATE_CREATE_SUCCESSFULLY = "State created successfully";
+	public static final String CITY_CREATE_SUCCESSFULLY = "City created successfully";
+	public static final String COUNTRY_GET_SUCCESSFULLY = "Country get successfully.";
+	public static final String STATE_GET_SUCCESSFULLY = "State get successfully.";
+	public static final String CITY_GET_SUCCESSFULLY = "City get successfully.";
+	public static final String BRANCH_CREATE_SUCCESSFULLY = "Branch created successfully";
+	public static final String BRANCH_GET_SUCCESSFULLY = "Branch get successfully.";
 
 	/*
 	 * Error Message
@@ -34,5 +42,8 @@ public class MsgConstants {
 	public static final String ERROR_USERNAME_NOT_FOUND = "Username not found.";
 	public static final String USER_NOT_REGISTERED = "User not registered.";
 	public static final String ERROR_INVALID_CREDENTIAL = "Username or password invalid.";
+	public static final String ERROR_NAME_NOT_NULL = "Name can not null.";
+	public static final String ERROR_COUNTRY_NOT_NULL = "Country id can not null.";
+	public static final String ERROR_STATE_NOT_NULL = "State id can not null.";
 
 }

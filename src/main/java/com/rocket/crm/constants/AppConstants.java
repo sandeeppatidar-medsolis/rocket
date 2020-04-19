@@ -19,5 +19,9 @@ public class AppConstants {
 	public static final String ROLES = "roles";
 	public static final String CREATED_BY = "createdBy";
 	public static final String CREATED_DATE = "createdDate";
+	public static final String COUNTRY_ID = "countryId";
+	public static final String STATE_ID = "stateId";
+	public static final String CITY_ID = "cityId";
+	public static final String ADDRESS = "address";
 
 }

@@ -5,9 +5,9 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-	<changeSet author="rocket" id="05052020_002">
+	<changeSet author="rocket" id="18042020_002">
 		<sqlFile dbms="postgresql" encoding="utf8" endDelimiter="\nGO"
-			path="change-db-05-05-2020.sql" relativeToChangelogFile="true"
+			path="change-db-18-04-2020_1.sql" relativeToChangelogFile="true"
 			splitStatements="true" stripComments="true" />
 	</changeSet>
 
