@@ -32,7 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().anonymous().disable().sessionManagement().and().authorizeRequests()
-				.antMatchers("/oauth/token", "/api/v1/user/forgot").permitAll();
+				.antMatchers("/oauth/token", "/api/v1/user/forgot", "/swagger-ui.html", "/swagger-resources/**",
+						"/api-docs/**", "/webjars/**", "/v2/**")
+				.permitAll();
 	}
 
 	@Bean

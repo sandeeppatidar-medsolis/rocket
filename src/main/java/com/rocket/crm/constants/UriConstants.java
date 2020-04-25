@@ -13,6 +13,7 @@ public class UriConstants {
 	public static final String BRANCH_API = "/api/v1/branch";
 	public static final String ROLE_API = "/api/v1/role";
 	public static final String MASTER_API = "/api/v1/master";
+	public static final String EMPLOYEE_API = "/api/v1/employee";
 
 	/*
 	 * COMMON END POINT
@@ -38,8 +39,7 @@ public class UriConstants {
 	public static final String COUNTRY = "/country";
 	public static final String STATE = "/state";
 	public static final String CITY = "/city";
-	
-	
+
 	/*
 	 * Branch END POINT
 	 */

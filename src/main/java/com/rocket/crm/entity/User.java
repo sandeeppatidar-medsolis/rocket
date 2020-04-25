@@ -33,11 +33,6 @@ public class User extends DateAudit implements UserDetails {
 	private static final long serialVersionUID = 6654208740321206499L;
 
 	private static final String USERNAME_FIELD = "username";
-	private static final String NAME_FIELD = "name";
-	private static final String PHONE_FIELD = "phone";
-	private static final String EMAIL_FIELD = "email";
-	private static final String CITY_FIELD = "city";
-	private static final String LOCATION_FIELD = "location";
 	private static final String PASSWORD_FIELD = "password";
 	private static final String ACCOUNT_NON_EXPIRED = "account_non_expired";
 	private static final String ACCOUNT_NON_LOCKED = "account_non_locked";
@@ -52,21 +47,6 @@ public class User extends DateAudit implements UserDetails {
 	@Id
 	@Column(name = USERNAME_FIELD, unique = true, nullable = false)
 	private String username;
-
-	@Column(name = PHONE_FIELD, nullable = false)
-	private String phone;
-
-	@Column(name = NAME_FIELD, nullable = false)
-	private String name;
-
-	@Column(name = LOCATION_FIELD)
-	private String location;
-
-	@Column(name = CITY_FIELD)
-	private String city;
-
-	@Column(name = EMAIL_FIELD)
-	private String email;
 
 	@Column(name = PASSWORD_FIELD)
 	private String password;

@@ -53,7 +53,7 @@ public class RoleDaoImpl implements RoleDao {
 			Map<String, Object> map = new HashMap<>();
 			map.put(AppConstants.NAME, tuple.get(0));
 			map.put(AppConstants.DISPLAY_NAME, tuple.get(1));
-			map.put(AppConstants.CREATED_BY, ((User) tuple.get(2)).getName());
+			map.put(AppConstants.CREATED_BY, ((User) tuple.get(2)).getUsername());
 			map.put(AppConstants.CREATED_DATE, tuple.get(3));
 
 			workEffortMaps.add(map);
@@ -80,7 +80,7 @@ public class RoleDaoImpl implements RoleDao {
 						"%" + displayName.toLowerCase() + "%"));
 
 			if (!ValidationUtility.isEmpty(createdBy))
-				predicates.add(builder.like(builder.lower(root.get(AppConstants.CREATED_BY).get(AppConstants.NAME)),
+				predicates.add(builder.like(builder.lower(root.get(AppConstants.CREATED_BY).get(AppConstants.USERNAME)),
 						"%" + createdBy.toLowerCase() + "%"));
 
 		} else if (!ValidationUtility.isEmpty(search)) {
@@ -88,7 +88,7 @@ public class RoleDaoImpl implements RoleDao {
 					builder.like(builder.lower(root.<String>get(AppConstants.NAME)), "%" + search.toLowerCase() + "%"),
 					builder.like(builder.lower(root.<String>get(AppConstants.DISPLAY_NAME)),
 							"%" + search.toLowerCase() + "%"),
-					builder.like(builder.lower(root.<String>get(AppConstants.CREATED_BY).get(AppConstants.NAME)),
+					builder.like(builder.lower(root.<String>get(AppConstants.CREATED_BY).get(AppConstants.USERNAME)),
 							"%" + search.toLowerCase() + "%")));
 		}
 		return predicates;

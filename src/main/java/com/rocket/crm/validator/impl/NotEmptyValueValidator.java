@@ -61,6 +61,8 @@ public class NotEmptyValueValidator implements ConstraintValidator<NotEmptyValue
 				isEmpty = ValidationUtility.isEmpty((Map<?, ?>) value);
 			else if (value instanceof Collection)
 				isEmpty = ValidationUtility.isEmpty((Collection<?>) value);
+			else if (value instanceof Integer)
+				isEmpty = ValidationUtility.isEmpty((Integer) value);
 			else
 				throw new IllegalArgumentException("Only apply string or collection classes");
 

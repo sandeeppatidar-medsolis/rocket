@@ -45,7 +45,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	@Transactional
 	public Map<String, Object> create(Map<String, Object> map) {
+		User user = save(map);
+		return ConversionUtils.convertEntityToMap(user, 1);
+	}
 
+	@Override
+	@Transactional
+	public User save(Map<String, Object> map) {
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>> rolesMap = (List<Map<String, Object>>) map.get(AppConstants.ROLES);
 
@@ -74,13 +80,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		if (!AppUtility.isEmpty(existUser)) {
 			throw new GenricException(MsgConstants.ERROR_USERNAME_ALREADY_EXIST);
 		}
-		if (!(AppUtility.isEmpty(user.getEmail()) || userRepository.findByEmail(user.getEmail()).isEmpty())) {
-			throw new GenricException(MsgConstants.ERROR_EMAIL_ALREADY_EXIST);
-		}
-		if (!userRepository.findByPhone(user.getPhone()).isEmpty()) {
-			throw new GenricException(MsgConstants.ERROR_PHONE_ALREADY_EXIST);
-		}
-
 		user.setEnabled(true);
 		user.setAccountNonExpired(true);
 		user.setCredentialsNonExpired(true);
@@ -89,7 +88,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		user.setUsername(user.getUsername());
 		user.setRoles(new HashSet<>(roles));
 		user = userRepository.save(user);
-		return ConversionUtils.convertEntityToMap(user, 1);
+		return user;
 	}
 
 	@Override
@@ -118,27 +117,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			roles.add(role);
 		}
 
-		User user = (User) ConversionUtils.convertMapToEntity(map, User.class);
-		if (!AppUtility.isEmpty(map.get(AppConstants.EMAIL))
-				&& !(existUser.getEmail().equals((String) map.get(AppConstants.EMAIL)))
-				&& !(userRepository.findByEmail((String) map.get(AppConstants.EMAIL)).isEmpty())) {
-			throw new GenricException(MsgConstants.ERROR_EMAIL_ALREADY_EXIST);
-		}
-
-		String phone = ((String) map.get(AppConstants.PHONE));
-		if (!(existUser.getPhone().equals((String) map.get(AppConstants.PHONE)))
-				&& (userRepository.findByPhone(phone) != null)) {
-			throw new GenricException(MsgConstants.ERROR_PHONE_ALREADY_EXIST);
-		}
-
+		// User user = (User) ConversionUtils.convertMapToEntity(map, User.class);
 		existUser.setRoles(new HashSet<>(roles));
-		existUser.setName(user.getName());
-		existUser.setLocation(user.getLocation());
-		existUser.setCity(user.getCity());
-		existUser.setEmail(user.getEmail());
-		existUser.setPhone(user.getPhone());
-		user = userRepository.save(existUser);
-		return ConversionUtils.convertEntityToMap(user, 1);
+		existUser = userRepository.save(existUser);
+		return ConversionUtils.convertEntityToMap(existUser, 1);
 	}
 
 	@Override
@@ -164,7 +146,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			throw new UsernameNotFoundException(MsgConstants.ERROR_INVALID_USER);
 		}
 		additionalInfo.put(AppConstants.USERNAME, authentication.getName());
-		additionalInfo.put(AppConstants.NAME, user.getName());
+		// additionalInfo.put(AppConstants.NAME, user.getName());
 		additionalInfo.put(AppConstants.ROLES, roles);
 		return additionalInfo;
 	}

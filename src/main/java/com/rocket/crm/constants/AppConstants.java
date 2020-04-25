@@ -23,5 +23,23 @@ public class AppConstants {
 	public static final String STATE_ID = "stateId";
 	public static final String CITY_ID = "cityId";
 	public static final String ADDRESS = "address";
+	public static final String FIRSTNAME = "firstname";
+	public static final String LASTNAME = "lastname";
+	public static final String GENDER = "gender";
+	public static final String DOB = "dob";
+	public static final String DOJ = "doj";
+	public static final String MOBILE = "mobile";
+	public static final String BRANCH_ID = "branchId";
+	public static final String ROLE = "role";
+	public static final String EMPLOYEE_TYPE = "employeeType";
+	public static final String BRANCH = "branch";
+	public static final String USER = "user";
+	public static final String COUNTRY = "country";
+	public static final String STATE = "state";
+	public static final String CITY = "city";
+	public static final String AVATAR = "avatar";
+	public static final String ACCOUNT_NUMBER = "accountNumber";
+	public static final String IFSC_CODE = "ifscCode";
+	public static final String SALARY = "salary";
 
 }
