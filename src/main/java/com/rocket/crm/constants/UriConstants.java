@@ -22,6 +22,7 @@ public class UriConstants {
 	public static final String UPDATE = "/update";
 	public static final String GET_ALL = "/get_all";
 	public static final String ALL = "/all";
+	public static final String DELETE = "/delete";
 
 	/*
 	 * USER END POINT
@@ -32,6 +33,7 @@ public class UriConstants {
 	 * ROLE END POINT
 	 */
 	public static final String GET_BY_NAME = "/{name}";
+	public static final String DELETE_BY_NAME = "/{name}";
 
 	/*
 	 * MASTER END POINT
