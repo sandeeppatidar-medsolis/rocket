@@ -25,6 +25,7 @@ public class MsgConstants {
 	public static final String EMPLOYEE_CREATE_SUCCESSFULLY = "Employee created successfully.";
 	public static final String EMPLOYEE_UPDATE_SUCCESSFULLY = "Employee updated successfully.";
 	public static final String EMPLOYEE_GET_SUCCESSFULLY = "Employee get successfully.";
+	public static final String ROLE_DELETE_SUCCESSFULLY = "Role Delete Successfully.";
 
 	/*
 	 * Error Message
@@ -49,5 +50,6 @@ public class MsgConstants {
 	public static final String ERROR_COUNTRY_NOT_NULL = "Country id can not null.";
 	public static final String ERROR_STATE_NOT_NULL = "State id can not null.";
 	public static final String ERROR_INVALID_BRANCH = "Invalid branch.";
+	public static final String ERROR_ROLE_ALREADY_ASSOCIATED_WITH_USER = "Role already associated with user";
 
 }

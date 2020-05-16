@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +50,12 @@ public class RoleController {
 			@RequestParam Map<String, Object> context, Pageable pageable) {
 		return new ResponseMessage<>(HttpStatus.OK.value(), MsgConstants.ROLE_GET_SUCCESSFULLY,
 				roleService.getAll(search, advanceSearch, context, pageable));
+	}
+
+	@DeleteMapping(value = UriConstants.DELETE_BY_NAME)
+	public ResponseMessage<Map<String, Object>> delete(@PathVariable(value = "name") String name) {
+		return new ResponseMessage<>(HttpStatus.OK.value(), MsgConstants.ROLE_DELETE_SUCCESSFULLY,
+				roleService.delete(name));
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.rocket.crm.service.impl;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,5 +49,18 @@ public class RoleServiceImpl implements RoleService {
 	public Page<Map<String, Object>> getAll(String search, boolean advanceSearch, Map<String, Object> context,
 			Pageable pageable) {
 		return roleDao.getAll(search, advanceSearch, context, pageable);
+	}
+
+	@Override
+	public Map<String, Object> delete(String name) {
+		Optional<Role> role = roleRepository.findById(name);
+		if (!role.isPresent()) {
+			throw new GenricException(MsgConstants.ERROR_INVALID_ROLE);
+		}
+		if (!AppUtility.isEmpty(role.get().getUsers())) {
+			throw new GenricException(MsgConstants.ERROR_ROLE_ALREADY_ASSOCIATED_WITH_USER);
+		}
+		roleRepository.delete(role.get());
+		return null;
 	}
 }

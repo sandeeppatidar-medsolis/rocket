@@ -13,4 +13,6 @@ public interface RoleService {
 
 	Page<Map<String, Object>> getAll(String search, boolean advanceSearch, Map<String, Object> context,
 			Pageable pageable);
+
+	Map<String, Object> delete(String name);
 }
