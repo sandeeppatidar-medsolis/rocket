@@ -18,30 +18,30 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rocket.crm.constants.AppConstants;
 import com.rocket.crm.constants.MsgConstants;
 import com.rocket.crm.constants.UriConstants;
-import com.rocket.crm.service.EmployeeService;
+import com.rocket.crm.service.LeadService;
 import com.rocket.crm.utility.ResponseMessage;
 import com.rocket.crm.validator.wrapper.EmployeeWrapper;
 
 @RestController
-@RequestMapping(value = UriConstants.EMPLOYEE_API)
-public class EmployeeController {
+@RequestMapping(value = UriConstants.LEAD_API)
+public class LeadController {
 
 	@Autowired
-	EmployeeService employeeService;
+	LeadService leadService;
 
 	@PostMapping(value = UriConstants.CREATE)
 	public ResponseMessage<Map<String, Object>> countrySave(@RequestBody @Valid EmployeeWrapper map) {
-		return new ResponseMessage<>(HttpStatus.OK.value(), MsgConstants.EMPLOYEE_CREATE_SUCCESSFULLY,
-				employeeService.create(map.getMap()));
+		return new ResponseMessage<>(HttpStatus.OK.value(), MsgConstants.LEAD_CREATE_SUCCESSFULLY,
+				leadService.create(map.getMap()));
 	}
-	
+
 	@GetMapping(value = UriConstants.GET_ALL)
 	public ResponseMessage<Page<Map<String, Object>>> getAll(
 			@RequestParam(value = "advanceSearch", required = false) boolean advanceSearch,
 			@RequestParam(value = AppConstants.KEY_SEARCH, required = false) String search,
 			@RequestParam Map<String, Object> context, Pageable pageable) {
-		return new ResponseMessage<>(HttpStatus.OK.value(), MsgConstants.EMPLOYEE_GET_SUCCESSFULLY,
-				employeeService.getAll(search, advanceSearch, context, pageable));
+		return new ResponseMessage<>(HttpStatus.OK.value(), MsgConstants.LEAD_GET_SUCCESSFULLY,
+				leadService.getAll(search, advanceSearch, context, pageable));
 	}
 
 }

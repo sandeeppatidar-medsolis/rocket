@@ -14,6 +14,7 @@ public class UriConstants {
 	public static final String ROLE_API = "/api/v1/role";
 	public static final String MASTER_API = "/api/v1/master";
 	public static final String EMPLOYEE_API = "/api/v1/employee";
+	public static final String LEAD_API = "/api/v1/lead";
 
 	/*
 	 * COMMON END POINT

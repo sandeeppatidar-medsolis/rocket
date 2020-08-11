@@ -26,6 +26,9 @@ public class MsgConstants {
 	public static final String EMPLOYEE_UPDATE_SUCCESSFULLY = "Employee updated successfully.";
 	public static final String EMPLOYEE_GET_SUCCESSFULLY = "Employee get successfully.";
 	public static final String ROLE_DELETE_SUCCESSFULLY = "Role Delete Successfully.";
+	public static final String LEAD_CREATE_SUCCESSFULLY = "Lead created successfully.";
+	public static final String LEAD_UPDATE_SUCCESSFULLY = "Lead updated successfully.";
+	public static final String LEAD_GET_SUCCESSFULLY = "Lead get successfully.";
 
 	/*
 	 * Error Message
